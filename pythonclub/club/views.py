@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Meeting, MeetingMinutes, Resource, Event
 from django.urls import reverse_lazy
 from .forms import MeetingForm, ResourcesForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -19,6 +20,8 @@ def MeetingDetail(request, id):
     meeting=get_object_or_404(Meeting, pk=id)
     return render(request, 'club/MeetingDetail.html',{'meeting': meeting})
 
+
+@login_required
 def newResource(request):
     form=ResourcesForm
 
@@ -32,6 +35,7 @@ def newResource(request):
         form=ResourcesForm()
     return render(request, 'club/newResource.html', {'form':form})
 
+@login_required
 def newMeeting(request):
     form=MeetingForm
 
@@ -44,4 +48,11 @@ def newMeeting(request):
     else:
         form=MeetingForm()
     return render(request, 'club/newMeeting.html', {'form':form})
+
+def loginmessage(request):
+    return render(request, 'club/loginmessage.html')
+
+def logoutmessage(request):
+    return render(request, 'club/logoutmessage.html')
+
 
