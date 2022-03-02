@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Meeting, MeetingMinutes, Resource, Event
 from django.urls import reverse_lazy
+from .forms import MeetingForm, ResourcesForm
 
 # Create your views here.
 def index(request):
@@ -17,3 +18,30 @@ def Meetings(request):
 def MeetingDetail(request, id):
     meeting=get_object_or_404(Meeting, pk=id)
     return render(request, 'club/MeetingDetail.html',{'meeting': meeting})
+
+def newResource(request):
+    form=ResourcesForm
+
+    if request.method=='POST':
+        form=ResourcesForm(request.POST)
+        if form.is_valid():
+            post=form.save(commit=True)
+            post.save()
+            form=ResourcesForm()
+    else:
+        form=ResourcesForm()
+    return render(request, 'club/newResource.html', {'form':form})
+
+def newMeeting(request):
+    form=MeetingForm
+
+    if request.method=='POST':
+        form=MeetingForm(request.POST)
+        if form.is_valid():
+            post=form.save(commit=True)
+            post.save()
+            form=MeetingForm()
+    else:
+        form=MeetingForm()
+    return render(request, 'club/newMeeting.html', {'form':form})
+
