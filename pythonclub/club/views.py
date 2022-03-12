@@ -1,3 +1,4 @@
+from importlib import resources
 from django.shortcuts import render, get_object_or_404
 from .models import Meeting, MeetingMinutes, Resource, Event
 from django.urls import reverse_lazy
@@ -11,6 +12,10 @@ def index(request):
 def Resources(request):
     resources_list=Resource.objects.all()
     return render(request, 'club/Resources.html',{'resources_list': resources_list})
+
+def ResourceDetail(request, id):
+    resource=get_object_or_404(Resource, pk=id)
+    return render(request, 'club/ResourceDetail.html',{'resource': resource})
 
 def Meetings(request):
     meetings_list=Meeting.objects.all()
